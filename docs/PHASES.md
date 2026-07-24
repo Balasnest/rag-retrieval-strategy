@@ -1,5 +1,7 @@
 # Build Phases
 
+> For detailed learning notes on each phase — concepts, decisions, deliverables — see [LEARNING_PLAN.md](./LEARNING_PLAN.md).
+
 Built incrementally. Each phase is confirmed working before moving to the
 next — nothing further is built until you give the go-ahead.
 
@@ -7,7 +9,7 @@ next — nothing further is built until you give the go-ahead.
 |---|-------|--------|
 | 0 | Project scaffold (folders, docker-compose, env template) | ✅ Done |
 | 1 | React UI + FastAPI skeleton | ✅ Done — awaiting confirmation to proceed |
-| 2 | Document ingestion + chunking | ⬜ Not started |
+| 2 | Document ingestion + chunking | 🔄 In progress |
 | 3 | Dense retrieval with pgvector | ⬜ Not started |
 | 4 | BM25 with Elasticsearch | ⬜ Not started |
 | 5 | Hybrid comparison page | ⬜ Not started |
