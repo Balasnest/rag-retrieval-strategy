@@ -30,7 +30,39 @@ export interface RechunkRequest {
   overlap?: number
 }
 
-// ── Stub type for Phase 3+ endpoints ────────────────────────────────────────
+// ── Phase 3 types ────────────────────────────────────────────────────────────
+
+export interface IndexRequest {
+  document_id?: string
+  strategy?: string
+}
+
+export interface IndexResponse {
+  indexed: number
+  already_embedded: number
+  document_ids: string[]
+}
+
+export interface ChunkResult {
+  id: string
+  document_id: string
+  content: string
+  chunk_index: number
+  strategy: string
+  token_count: number
+  score: number
+  document_title: string | null
+}
+
+export interface QueryResponse {
+  question: string
+  answer: string
+  mode: string
+  chunks: ChunkResult[]
+  latency_ms: number
+}
+
+// ── Stub type for Phase 4+ endpoints ────────────────────────────────────────
 
 export interface StubResponse<T = unknown> {
   implemented: boolean
@@ -77,19 +109,23 @@ export const api = {
       headers: { "Content-Type": "application/json" },
     }),
 
-  // Stubs — Phase 3+
-  buildIndex: (body: { reset?: boolean } = {}) =>
-    request<StubResponse>("/index", {
+  // Indexing (Phase 3)
+  buildIndex: (body: IndexRequest = {}) =>
+    request<IndexResponse>("/index", {
       method: "POST",
       body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" },
     }),
-  query: (body: { question: string; mode: string; top_k?: number }) =>
-    request<StubResponse>("/query", {
+
+  // Query (Phase 3 — dense only)
+  query: (body: { question: string; mode?: string; top_k?: number }) =>
+    request<QueryResponse>("/query", {
       method: "POST",
-      body: JSON.stringify(body),
+      body: JSON.stringify({ mode: "dense", ...body }),
       headers: { "Content-Type": "application/json" },
     }),
+
+  // Stubs — Phase 4+
   compare: (question: string) =>
     request<StubResponse>("/compare", {
       method: "POST",

@@ -38,7 +38,7 @@ export function Sidebar() {
         ))}
       </nav>
       <div className="p-3 border-t border-slate-100">
-        <p className="text-xs text-slate-300">Phase 2 — Ingestion</p>
+        <p className="text-xs text-slate-300">Phase 3 — Dense Retrieval</p>
       </div>
     </aside>
   )

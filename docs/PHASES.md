@@ -9,8 +9,8 @@ next — nothing further is built until you give the go-ahead.
 |---|-------|--------|
 | 0 | Project scaffold (folders, docker-compose, env template) | ✅ Done |
 | 1 | React UI + FastAPI skeleton | ✅ Done — awaiting confirmation to proceed |
-| 2 | Document ingestion + chunking | 🔄 In progress |
-| 3 | Dense retrieval with pgvector | ⬜ Not started |
+| 2 | Document ingestion + chunking | ✅ Done |
+| 3 | Dense retrieval with pgvector | 🔄 In progress |
 | 4 | BM25 with Elasticsearch | ⬜ Not started |
 | 5 | Hybrid comparison page | ⬜ Not started |
 

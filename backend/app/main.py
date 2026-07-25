@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 
 from app.config import settings
 from app.db import engine, Base
@@ -10,14 +11,28 @@ from app.routers import documents, chunk, index, query, compare, metrics
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    with engine.connect() as conn:
+        # Enable pgvector extension (required before using vector columns)
+        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        conn.commit()
+
+    # Create tables that don't exist yet
     Base.metadata.create_all(bind=engine)
+
+    # Idempotent migration: add vector column if this DB was created in Phase 2
+    with engine.connect() as conn:
+        conn.execute(text(
+            "ALTER TABLE chunks ADD COLUMN IF NOT EXISTS vector vector(1536)"
+        ))
+        conn.commit()
+
     yield
 
 
 app = FastAPI(
     title="RAG Explorer API",
     description="Educational RAG debugger backend.",
-    version="0.2.0-phase2",
+    version="0.3.0-phase3",
     lifespan=lifespan,
 )
 
@@ -32,7 +47,7 @@ app.add_middleware(
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "phase": 2, "message": "Document ingestion + chunking live."}
+    return {"status": "ok", "phase": 3, "message": "Dense retrieval with pgvector live."}
 
 
 app.include_router(documents.router)
