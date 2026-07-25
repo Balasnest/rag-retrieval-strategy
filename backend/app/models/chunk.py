@@ -18,7 +18,7 @@ class Chunk(Base):
     chunk_size = Column(Integer, nullable=True)      # null for sentence/paragraph
     overlap = Column(Integer, nullable=True)         # null for sentence/paragraph
     token_count = Column(Integer, nullable=False)
-    vector = Column(Vector(1536), nullable=True)     # populated by POST /index (Phase 3)
+    vector = Column(Vector(384), nullable=True)      # all-MiniLM-L6-v2 dim; populated by POST /index
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     document = relationship("Document", back_populates="chunks")

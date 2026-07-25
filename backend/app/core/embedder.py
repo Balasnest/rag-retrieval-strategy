@@ -1,55 +1,57 @@
 """
-OpenAI embeddings + chat completion helpers for Phase 3 dense retrieval.
+Embedding + answer generation for Phase 3 dense retrieval.
 
-The client is created lazily on first use so the backend starts cleanly
-even if OPENAI_API_KEY is not yet set.
+Embeddings: sentence-transformers (all-MiniLM-L6-v2) — runs locally, no API key.
+Answer generation: Anthropic Claude — requires ANTHROPIC_API_KEY in .env.
+
+Both clients are lazy so the backend starts cleanly even before any key is set.
 """
 from __future__ import annotations
-from openai import OpenAI
+from sentence_transformers import SentenceTransformer
+import anthropic
 from app.config import settings
 
-_client: OpenAI | None = None
+EMBED_DIM = 384  # all-MiniLM-L6-v2 output dimension
+
+_embed_model: SentenceTransformer | None = None
+_anthropic_client: anthropic.Anthropic | None = None
 
 
-def _get_client() -> OpenAI:
-    global _client
-    if _client is None:
-        _client = OpenAI(api_key=settings.openai_api_key)
-    return _client
+def _get_embed_model() -> SentenceTransformer:
+    global _embed_model
+    if _embed_model is None:
+        _embed_model = SentenceTransformer(settings.embedding_model)
+    return _embed_model
+
+
+def _get_anthropic_client() -> anthropic.Anthropic:
+    global _anthropic_client
+    if _anthropic_client is None:
+        _anthropic_client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    return _anthropic_client
 
 
 def embed(text: str) -> list[float]:
-    resp = _get_client().embeddings.create(model=settings.openai_embedding_model, input=text)
-    return resp.data[0].embedding
+    return _get_embed_model().encode(text).tolist()
 
 
-def embed_batch(texts: list[str], batch_size: int = 100) -> list[list[float]]:
-    """Embed texts in batches to stay within the API's per-request token limit."""
-    client = _get_client()
+def embed_batch(texts: list[str], batch_size: int = 64) -> list[list[float]]:
+    model = _get_embed_model()
     vectors: list[list[float]] = []
     for i in range(0, len(texts), batch_size):
-        batch = texts[i : i + batch_size]
-        resp = client.embeddings.create(model=settings.openai_embedding_model, input=batch)
-        vectors.extend([d.embedding for d in sorted(resp.data, key=lambda x: x.index)])
+        vectors.extend(model.encode(texts[i : i + batch_size]).tolist())
     return vectors
 
 
 def generate_answer(question: str, context: str) -> str:
-    resp = _get_client().chat.completions.create(
-        model=settings.openai_chat_model,
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are a helpful assistant. Answer the user's question using only "
-                    "the provided context. If the context does not contain enough "
-                    "information to answer confidently, say so clearly. Be concise."
-                ),
-            },
-            {
-                "role": "user",
-                "content": f"Context:\n{context}\n\nQuestion: {question}",
-            },
-        ],
+    msg = _get_anthropic_client().messages.create(
+        model=settings.claude_model,
+        max_tokens=1024,
+        system=(
+            "You are a helpful assistant. Answer the user's question using only "
+            "the provided context. If the context does not contain enough "
+            "information to answer confidently, say so clearly. Be concise."
+        ),
+        messages=[{"role": "user", "content": f"Context:\n{context}\n\nQuestion: {question}"}],
     )
-    return resp.choices[0].message.content or ""
+    return msg.content[0].text

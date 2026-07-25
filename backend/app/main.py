@@ -19,10 +19,10 @@ async def lifespan(_: FastAPI):
     # Create tables that don't exist yet
     Base.metadata.create_all(bind=engine)
 
-    # Idempotent migration: add vector column if this DB was created in Phase 2
+    # Idempotent migration: add vector column if table was created before Phase 3
     with engine.connect() as conn:
         conn.execute(text(
-            "ALTER TABLE chunks ADD COLUMN IF NOT EXISTS vector vector(1536)"
+            "ALTER TABLE chunks ADD COLUMN IF NOT EXISTS vector vector(384)"
         ))
         conn.commit()
 
