@@ -1,20 +1,24 @@
-"""
-RAG Explorer backend — FastAPI app.
-
-Phase 1 status: skeleton only. Every route below except `/health` returns
-a clearly-labeled stub response (`implemented: false`) — see
-docs/PHASES.md for what's real vs. planned.
-"""
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.db import engine, Base
+import app.models  # noqa: F401 — registers Document + Chunk with Base
 from app.routers import documents, chunk, index, query, compare, metrics
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    yield
+
 
 app = FastAPI(
     title="RAG Explorer API",
-    description="Educational RAG debugger backend. Not a production API.",
-    version="0.1.0-phase1",
+    description="Educational RAG debugger backend.",
+    version="0.2.0-phase2",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -28,13 +32,7 @@ app.add_middleware(
 
 @app.get("/health")
 def health():
-    """The one real endpoint in Phase 1 — proves the frontend <-> backend
-    wiring works before any retrieval logic exists."""
-    return {
-        "status": "ok",
-        "phase": 1,
-        "message": "FastAPI skeleton is running. No retrieval logic implemented yet.",
-    }
+    return {"status": "ok", "phase": 2, "message": "Document ingestion + chunking live."}
 
 
 app.include_router(documents.router)

@@ -1,0 +1,60 @@
+Understanding Vector Databases: A Practical Introduction
+Published in the Journal of Applied Machine Learning Engineering, Vol. 12
+
+Introduction
+
+The rapid adoption of large language models has created demand for a new class of storage system: the vector database. Unlike relational databases that organize data into rows and columns, or document stores that index by field values, vector databases are designed to store and retrieve high-dimensional numerical vectors efficiently. These vectors — often called embeddings — encode the semantic meaning of text, images, or audio in a form that supports similarity search at scale.
+
+This article explains how vector databases work, what makes them different from traditional systems, and when you should consider using one in a production application. We also cover the most important algorithmic concepts: ANN (approximate nearest neighbour) search, indexing strategies, and the trade-offs involved in choosing a vector database for a given workload.
+
+What Is an Embedding?
+
+An embedding is a fixed-length array of floating-point numbers that represents the meaning of an input. For text, models like OpenAI's text-embedding-3-small or sentence-transformers generate embeddings with 1536 or 768 dimensions respectively. The key property is that semantically similar inputs produce vectors that are close together in the high-dimensional space, even if the exact words differ. For example, "the dog ran fast" and "the canine moved quickly" will produce vectors with a high cosine similarity score, while "the dog ran fast" and "quarterly earnings report" will produce vectors that are far apart.
+
+This semantic proximity is what makes vector search fundamentally different from keyword search. A keyword search for "canine" would not match a document containing only "dog," but a vector search would rank it highly because the embeddings are similar.
+
+How Vector Databases Store Embeddings
+
+A vector database stores each embedding alongside its associated metadata — typically a document identifier, a text snippet, or whatever payload the application needs to return when a match is found. The naive approach to search is brute-force: compute the distance between the query vector and every stored vector, then return the closest ones. This is called exact nearest neighbour (ENN) search and is accurate but computationally expensive — O(n * d) where n is the number of vectors and d is the dimensionality.
+
+For small collections (under one million vectors), brute-force search is often fast enough, especially with modern SIMD instructions that vectorize the computation. But at tens of millions of vectors, you need approximate nearest neighbour (ANN) search, which sacrifices a small amount of accuracy for a large gain in speed.
+
+Approximate Nearest Neighbour Search
+
+ANN algorithms work by building an index that partitions the vector space so that only a fraction of the total vectors need to be examined at query time. The most widely deployed ANN algorithm today is HNSW (Hierarchical Navigable Small Worlds), published by Malkov and Yashunin in 2018.
+
+HNSW builds a multi-layer graph where each node is a vector. The top layers of the graph have sparse connections between well-separated vectors, while lower layers become progressively denser. At query time, the search starts at the top layer, greedily navigating toward the query vector, then drops down to the next layer and repeats. This produces results that are extremely close to exact nearest neighbours in practice, with sub-linear query time.
+
+The two main parameters for HNSW are ef_construction (the size of the candidate list during index build, controlling recall vs. build time) and M (the number of connections per node, controlling recall vs. memory). Typical values are ef_construction=200 and M=16. Increasing M improves recall but linearly increases memory usage.
+
+A second popular ANN approach is IVF (Inverted File Index), which clusters vectors using k-means during indexing and only searches the nearest clusters at query time. IVF uses less memory than HNSW and is a good choice when memory is the primary constraint.
+
+Distance Metrics
+
+The choice of distance metric matters and must match the metric used by the embedding model. The three most common are:
+
+Cosine similarity measures the angle between two vectors and is insensitive to magnitude. It is the standard metric for text embeddings because the absolute scale of embedding values is less meaningful than the direction.
+
+Euclidean distance (L2) measures the straight-line distance between two points. It is more sensitive to magnitude and is commonly used for image embeddings and in cases where the embedding model was trained with L2 in mind.
+
+Dot product is closely related to cosine similarity but is sensitive to magnitude. Some embedding APIs (including OpenAI's) return normalized vectors, which makes dot product and cosine similarity equivalent.
+
+Choosing the wrong metric can significantly degrade retrieval quality, so always check the documentation of your embedding model.
+
+pgvector: Vector Search Inside PostgreSQL
+
+For teams already running PostgreSQL, pgvector is an extension that adds a vector column type and ANN search operators without requiring a separate database system. You create a vector column with a specified dimension, insert embeddings, and search with the <=> operator (cosine distance) or <-> (Euclidean distance).
+
+pgvector supports both exact search (scanning all rows) and HNSW indexes for approximate search. The HNSW index in pgvector is created with a standard CREATE INDEX statement and supports ef_search at query time to tune the recall-speed trade-off. An important caveat: pgvector's HNSW index is built and stored on disk, meaning cold queries (first access after a restart) can be slower than memory-resident alternatives like FAISS.
+
+When to Use a Dedicated Vector Database vs. pgvector
+
+The answer depends primarily on scale and team infrastructure. If you already run PostgreSQL and your vector collection is under roughly ten million records, pgvector is a strong choice: it keeps your operational footprint small, allows you to JOIN vector search results with relational data in a single query, and benefits from PostgreSQL's mature tooling for backups, monitoring, and access control.
+
+At larger scale, or when vector search is the primary workload, dedicated systems like Pinecone, Weaviate, Qdrant, or Milvus offer better query throughput and more indexing options. These systems are purpose-built for vector workloads and provide features like filtered ANN search (combining a vector search with metadata filters), automatic shard management, and horizontal scaling.
+
+For most production RAG applications serving fewer than ten million document chunks, pgvector is the right starting point. Migrate to a dedicated system only when query latency or indexing throughput becomes a bottleneck — not prematurely.
+
+Conclusion
+
+Vector databases solve a specific problem — efficient similarity search over dense embeddings — that traditional databases handle poorly. The core concepts to internalize are the difference between exact and approximate search, the HNSW algorithm and its trade-offs, and the importance of matching your distance metric to your embedding model. For teams building RAG systems, pgvector offers a pragmatic entry point that avoids operational overhead while delivering strong search performance at realistic scale.

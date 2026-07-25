@@ -1,0 +1,112 @@
+CloudSync Pro — User Manual
+Version 3.2 | Last updated January 2026
+
+INTRODUCTION
+
+CloudSync Pro is a cross-platform file synchronization tool designed for teams who need reliable, real-time access to shared documents across desktop, mobile, and web environments. This manual covers installation, configuration, daily usage, and troubleshooting for all supported platforms: Windows 10/11, macOS 12+, and Ubuntu 22.04 LTS.
+
+Before you begin, ensure you have a CloudSync Pro account. If you do not have one, visit the registration portal and complete the signup process. You will receive a confirmation email within five minutes. Click the verification link before proceeding with installation.
+
+
+SYSTEM REQUIREMENTS
+
+Desktop (Windows and macOS)
+- Operating system: Windows 10 version 21H2 or later, macOS Monterey 12.0 or later
+- Processor: 1.5 GHz dual-core or better
+- Memory: 4 GB RAM minimum, 8 GB recommended
+- Storage: 500 MB for application files, plus space for your synchronized content
+- Network: Broadband internet connection (5 Mbps upload recommended for large teams)
+
+Mobile (iOS and Android)
+- iOS 15.0 or later on iPhone 8 or newer
+- Android 10.0 or later with at least 2 GB RAM
+
+Web Browser
+- Chrome 108+, Firefox 110+, Safari 16+, Edge 108+
+- JavaScript must be enabled; third-party cookies required for session persistence
+
+
+INSTALLATION
+
+Windows
+1. Download the CloudSync Pro installer (CloudSyncPro_Setup_3.2.exe) from the official website.
+2. Right-click the installer and select "Run as administrator."
+3. Accept the End User License Agreement.
+4. Choose your installation directory. The default is C:\Program Files\CloudSync Pro.
+5. Select whether to install for the current user only or for all users on this machine.
+6. Click Install and wait for the process to complete (typically two to four minutes).
+7. Launch CloudSync Pro from the Start menu or desktop shortcut.
+
+macOS
+1. Download the disk image (CloudSyncPro_3.2.dmg).
+2. Double-click to mount it.
+3. Drag the CloudSync Pro icon into your Applications folder.
+4. On first launch, macOS will ask you to confirm you want to open an application downloaded from the internet. Click Open.
+5. Grant the requested permissions: Accessibility (for keyboard shortcuts), Files and Folders (for sync), and Network (for connectivity).
+
+Linux (Ubuntu 22.04)
+Install via the official APT repository:
+  sudo apt-get update
+  sudo apt-get install cloudsync-pro
+
+Alternatively, download the .deb package directly and install with dpkg.
+
+
+FIRST-TIME SETUP
+
+After installation, launch CloudSync Pro and sign in with your registered email address and password. If your organization uses Single Sign-On (SSO), click "Sign in with SSO" and enter your company domain.
+
+The Setup Wizard will guide you through three steps:
+
+Step 1 — Choose your sync folder
+The default sync folder is ~/CloudSync (macOS/Linux) or C:\Users\YourName\CloudSync (Windows). You can change this to any folder on a local drive. External drives and network shares are supported but not recommended for primary sync.
+
+Step 2 — Select sync mode
+- Full sync: All files in your workspace are downloaded to this device.
+- Selective sync: You choose which folders to download. Files you do not select remain in the cloud but do not occupy local storage.
+- Online-only: Files appear in your file explorer but are downloaded only when opened.
+
+Step 3 — Connect team workspaces
+If you belong to one or more team workspaces, they will appear here. Check the boxes for workspaces you want to sync on this device.
+
+Click Finish. CloudSync Pro will begin its initial sync. Depending on the size of your workspace, this may take a few minutes to several hours.
+
+
+DAILY USAGE
+
+Syncing Files
+Any file you place in your CloudSync folder is automatically uploaded and made available on all your other connected devices. Changes are detected within two seconds on desktop and within thirty seconds on mobile.
+
+File status icons appear in your file explorer:
+- Green checkmark: File is synced and up to date.
+- Blue circular arrows: File is currently syncing.
+- Yellow warning triangle: Sync conflict detected (see Conflict Resolution below).
+- Red X: Sync error — check the Activity Log for details.
+
+Sharing Files and Folders
+Right-click any file or folder in your CloudSync directory and select "Share." You can:
+- Copy a shareable link (view-only by default; toggle edit permissions as needed).
+- Invite specific people by email address.
+- Set an expiry date on the link.
+- Password-protect shared links (Pro and Enterprise plans only).
+
+Version History
+CloudSync Pro retains 180 days of version history for all files. To restore a previous version, right-click the file, select "Version History," and choose the version you want to restore. You can also download older versions without overwriting the current one.
+
+Conflict Resolution
+A conflict occurs when the same file is edited on two devices simultaneously without an internet connection. CloudSync Pro resolves conflicts by keeping both versions: the original file retains its name, and the conflicting copy is renamed with the device name and timestamp (e.g., report_MacBook_2026-01-15_14-32.docx). Review both files and manually merge changes as needed.
+
+
+TROUBLESHOOTING
+
+Sync is paused
+Check your internet connection. CloudSync Pro automatically pauses sync when no connection is detected. If you are connected but sync is still paused, click the CloudSync Pro icon in your system tray and select "Resume sync."
+
+Files not appearing on other devices
+Allow a few minutes for large files to complete uploading. If a file has not appeared after ten minutes, check the Activity Log (accessible from the system tray menu) for errors. Common causes include file name characters unsupported on the target operating system and files exceeding the 50 GB per-file limit.
+
+Application will not start
+On Windows, try running the repair tool from Control Panel > Programs > CloudSync Pro > Repair. On macOS, delete the application support folder at ~/Library/Application Support/CloudSyncPro and reinstall.
+
+Contact Support
+For issues not covered in this manual, contact support at support@cloudsyncp.example.com or visit the community forum. Include your application version number (visible under Help > About) and your operating system version when submitting a ticket.

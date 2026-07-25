@@ -1,0 +1,46 @@
+Acme Corporation Remote Work Policy
+Effective Date: March 1, 2026 | Policy Reference: HR-POL-2026-004
+
+This policy establishes the standards and expectations for employees of Acme Corporation who work remotely, whether on a full-time, part-time, or occasional basis. It applies to all regular full-time and part-time employees, contractors engaged for more than thirty days, and temporary staff with access to company systems. Compliance with this policy is mandatory and forms part of the terms and conditions of employment. Failure to adhere to these guidelines may result in revocation of remote work privileges and, in serious cases, disciplinary action up to and including termination.
+
+Acme Corporation recognizes that remote work offers significant benefits to both employees and the organization, including improved work-life balance, reduced commute times, access to a broader talent pool, and continuity of operations during disruptions. At the same time, remote work introduces risks related to information security, team cohesion, productivity management, and regulatory compliance that must be actively managed. This policy is designed to balance flexibility with accountability.
+
+Eligibility and Approval Process
+
+Not all roles are suitable for remote work. Suitability is determined by the nature of the work, the employee's performance history, and the operational needs of the team. Roles that require constant access to physical equipment, in-person client interaction, or secure on-premises systems are generally not eligible. Employees wishing to work remotely must obtain written approval from their direct manager and the Human Resources department before beginning any remote work arrangement. Approvals are granted for a period of twelve months and must be renewed annually. Approval may be withdrawn at any time if business needs change or if the employee's performance does not meet expectations.
+
+Employees on a performance improvement plan are not eligible for remote work arrangements until the plan is successfully completed and the employee returns to standard standing.
+
+Equipment and Workspace Requirements
+
+Employees are responsible for maintaining a safe, private, and productive home workspace. The workspace must have a reliable internet connection with a minimum download speed of 25 Mbps and upload speed of 10 Mbps. Employees should test their connection before their first remote work day and report persistent connectivity issues to IT. Acme Corporation will provide standard equipment including a laptop, headset, and any software licenses required to perform the role. Employees must not use personal devices to access company systems, data, or applications unless they have enrolled their personal device in the company's Mobile Device Management program and received explicit written approval from IT Security.
+
+Physical security of company-provided equipment is the employee's responsibility. Devices must not be left unattended in public places, must be locked when not in use, and must be stored securely when not in the employee's possession. Loss or theft of company equipment must be reported to the IT helpdesk and HR within two hours of discovery.
+
+Information Security Obligations
+
+Remote employees are subject to the same information security obligations as on-site employees, with additional requirements specific to the home environment. Employees must connect to company systems exclusively through the company-issued VPN. Public Wi-Fi networks — such as those in coffee shops, airports, or hotels — must never be used to access company systems without the VPN active. Employees must ensure that family members and guests cannot view their screens during working hours, particularly when handling confidential data.
+
+All work-related data must be stored on company-approved cloud storage systems or on encrypted company devices. Storing company data on personal cloud accounts, USB drives, or personal computers is strictly prohibited. Employees must complete the annual Information Security Awareness training and any additional training modules assigned by IT Security. Completion of training is tracked and non-completion may result in suspension of remote work privileges.
+
+Working Hours and Availability
+
+Remote employees are expected to be available and responsive during their contracted working hours. Core hours — the period during which all team members, regardless of time zone, must be available — are 10:00 AM to 3:00 PM in the team's primary time zone. Outside core hours, employees may structure their work to suit their personal circumstances, provided that deadlines are met and stakeholders can reasonably expect responses within two business hours. Employees must update their status in the company communication platform to reflect their availability and must not routinely ignore messages or calls during core hours.
+
+Attendance at team meetings is mandatory unless the employee has obtained advance approval for an absence or has a documented conflict. Employees should proactively notify their manager and relevant colleagues if they anticipate being unavailable for more than one hour during core hours.
+
+Performance and Accountability
+
+Remote employees are evaluated on the same performance criteria as their on-site peers, with outcomes and deliverables taking precedence over hours logged. Managers are responsible for setting clear expectations, providing regular feedback, and conducting quarterly check-ins specifically focused on the remote working arrangement. Employees are encouraged to raise concerns about their workload, collaboration challenges, or equipment issues promptly rather than allowing problems to accumulate.
+
+Acme Corporation reserves the right to require any employee to return to an office location, with reasonable notice, if business needs, performance issues, or changes in role requirements make on-site presence necessary.
+
+Expenses and Reimbursement
+
+Acme Corporation will reimburse reasonable expenses incurred for remote work, subject to pre-approval and submission of receipts through the expense management system. Reimbursable items include ergonomic equipment (up to a lifetime maximum of five hundred dollars per employee), additional monitors (one per employee, subject to manager approval), and a monthly internet stipend of fifty dollars. Personal expenses such as home renovation, furniture not related to ergonomics, electricity, and heating are not reimbursable. Expense claims must be submitted within thirty days of the expense being incurred.
+
+Review and Amendments
+
+This policy will be reviewed annually by the Human Resources department in consultation with senior leadership. Amendments may be made at any time in response to changes in legislation, business requirements, or lessons learned from policy application. Employees will be notified of material changes with a minimum of fourteen days' notice before the changes take effect.
+
+Questions regarding this policy should be directed to the Human Resources department at hr@acme.example.com.
