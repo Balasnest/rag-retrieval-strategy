@@ -6,7 +6,7 @@ from app.db import get_db
 from app.models.document import Document
 from app.models.chunk import Chunk
 from app.schemas.document import DocumentResponse, ChunkResponse
-from app.core import chunker
+from app.core import chunker, bm25_search
 
 router = APIRouter(tags=["documents"])
 
@@ -69,6 +69,7 @@ def delete_document(document_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Document not found.")
     db.delete(doc)
     db.commit()
+    bm25_search.delete_document(document_id)
 
 
 @router.get("/chunks", response_model=list[ChunkResponse])

@@ -10,6 +10,7 @@ class IndexRequest(BaseModel):
 class IndexResponse(BaseModel):
     indexed: int
     already_embedded: int
+    es_indexed: int
     document_ids: list[str]
 
 
@@ -20,7 +21,7 @@ class ChunkResult(BaseModel):
     chunk_index: int
     strategy: str
     token_count: int
-    score: float          # cosine similarity 0–1 (1 = identical)
+    score: float
     document_title: str | None = None
 
     model_config = {"from_attributes": True}
@@ -38,3 +39,16 @@ class QueryResponse(BaseModel):
     mode: str
     chunks: list[ChunkResult]
     latency_ms: float
+
+
+class CompareRequest(BaseModel):
+    question: str
+    top_k: int = 5
+
+
+class CompareResponse(BaseModel):
+    question: str
+    dense: QueryResponse
+    bm25: QueryResponse
+    overlap_count: int
+    overlap_ids: list[str]

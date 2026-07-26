@@ -62,7 +62,15 @@ export interface QueryResponse {
   latency_ms: number
 }
 
-// ── Stub type for Phase 4+ endpoints ────────────────────────────────────────
+export interface CompareResponse {
+  question: string
+  dense: QueryResponse
+  bm25: QueryResponse
+  overlap_count: number
+  overlap_ids: string[]
+}
+
+// ── Stub type for Phase 5+ endpoints ────────────────────────────────────────
 
 export interface StubResponse<T = unknown> {
   implemented: boolean
@@ -125,13 +133,15 @@ export const api = {
       headers: { "Content-Type": "application/json" },
     }),
 
-  // Stubs — Phase 4+
-  compare: (question: string) =>
-    request<StubResponse>("/compare", {
+  // Compare (Phase 4)
+  compare: (body: { question: string; top_k?: number }) =>
+    request<CompareResponse>("/compare", {
       method: "POST",
-      body: JSON.stringify({ question }),
+      body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" },
     }),
+
+  // Stubs — Phase 5
   metrics: () =>
     request<StubResponse>("/metrics", { method: "POST" }),
 }

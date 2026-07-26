@@ -32,7 +32,7 @@ async def lifespan(_: FastAPI):
 app = FastAPI(
     title="RAG Explorer API",
     description="Educational RAG debugger backend.",
-    version="0.3.0-phase3",
+    version="0.4.0-phase4",
     lifespan=lifespan,
 )
 
