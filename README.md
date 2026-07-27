@@ -1,6 +1,6 @@
 # RAG Explorer
 
-An **educational RAG debugger**, not a chatbot. Every stage of retrieval —
+An **educational RAG debugger**. Every stage of retrieval —
 chunking, embedding, dense search, BM25, hybrid fusion, prompt
 construction — is visible and inspectable in the UI, so you can see
 *why* an answer was retrieved (or wasn't).
